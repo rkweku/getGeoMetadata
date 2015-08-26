@@ -1,5 +1,7 @@
 # getGeoMetadata
-======== Description ========
+
+Description
+--------------
 getGeoMetadata functions by downloading metadata and parsing the
 characteristics for each sample from a GEO data series or GEO dataset. Metadata
 is saved and then can be uploaded to a project on synapse.org. There are three
@@ -22,7 +24,8 @@ This is useful if getGeometadata.py failed at some point but a large amount
 of data has already been downloaded. This can be used later to upload the
 full folder once all data has been downloaded
 
-======== Requirements ========
+Requirements
+--------------
 getGeoMetadata requires the following python libraries to perform properly:
 Bio - http://biopython.org/wiki/Main_Page
 lxml.etree - http://lxml.de/
@@ -32,18 +35,21 @@ synapseclient - http://python-docs.synapse.org/
 These may easily be installed using (Python) PIP. Intructions to install PIP -
 https://pip.pypa.io/en/stable/installing.html
 
-======== Execution ========
+Execution
+--------------
 Executing any of the getGeoMetadata programs require a few specific command
 line arguments for a successful execution. They are listed below along with
 examples further below.
 
-========== Notes ==========
+Notes
+--------------
 If you are running getGeoMetada.py for multiple GEO access numbers, the
 format of the inputFile will just be a list of accession IDs in plain text.
 There should be one accession ID per line immediately followed by a new line.
 Do not end the file with a new line. An example is provided in the repo.
 
-======= Arguments ========
+Arguments
+--------------
 *Arguments for getGeoMetdataSingle.py and getGeoMetadataBySample.py
 id		GEO accession number for the dataset of interest
 
@@ -55,7 +61,8 @@ directory	Name of the folder to output the data to
 *Arguments for uploadToSynapse.py
 diretory	Name of the folder holding the data to be uploaded to Synapse
 
-==============Examples ==================
+Examples
+--------------
 1. Execution on a single dataset or data series to provide metadata with just
    one characteristic and its value per row.
 
@@ -74,6 +81,7 @@ python getGeoMetadataBySample.py -id GDS4071
 
 python uploadToSynapse.py -directory outputDirectory
 
-======= Contact ===========
+Contact
+--------------
 Reza Hammond
 RezaKweku@gmail.com
