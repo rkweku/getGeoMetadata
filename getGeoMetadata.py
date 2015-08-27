@@ -1,6 +1,7 @@
 import argparse
 import csv
 import pandas as pd
+import os
 import synapseclient
 import sys
 import time
@@ -13,25 +14,19 @@ from synapseclient import Schema, Column, Table, Row, RowSet, as_table_columns
 syn=synapseclient.Synapse()
 syn.login()
 
-def cmdLineParser():
-    """
-    Parse the command line arguments
+#############################Execution Variables###############################
+# Name of the file where to get the GEO accession IDs from
+accessionIDsFilename = 'Accession_IDs.txt'
 
-    Return:
-        parser for all arguments
+# Name of the folder to be used to save the metadata files
+directory = 'test'
 
-    """
+# The synapse ID for the project where the table will be saved
+synID = 'syn4012977'
 
-    # Initialize parser
-    parser = argparse.ArgumentParser()
-
-    ### Add all arguments here
-    parser.add_argument('-inputFile', required=True, help='Name of the '\
-        'file containing all accession IDs')
-    parser.add_argument('-directory', required=True, default='dataFiles',
-        help='Name of folder to output data to')
-
-    return(parser)
+# The name that you would like to name the table.
+synName = 'Test table'
+##############################################################################
 
 def getAccessionIDsFromFile(filename):
     """
@@ -449,22 +444,24 @@ def writeToFile(metadata, accessionID, directory):
     # Set the columns for the dataframe to header
     df.columns = header
 
+    # Create the directory if it does not exist yet
+    if not os.path.exists(directory):
+        os.makedirs(directory)
+
     # Write the metadata to the file
     df.to_csv('%s/%s.csv' % (directory, accessionID), encoding='utf-8', 
         index=False)
 
-    # If description is in the header, limit it to 1000 characters
-#    if('Description' in header):
-#        df[['Description']].applymap(lambda x: x[:1000])
-
     return df
 
-def upload(directory, dataFrameList):
+def upload(directory, synID, synName, dataFrameList):
     """
     Upload the data to a Synapse table
 
     Input:
         directory: The name of the directory holding the data
+        synID: Synapse ID of the project where the table will be stored
+        synName: Name to be given to the new table
         dataFrameList: List of dataframes with all of the data
 
     """
@@ -486,17 +483,13 @@ def upload(directory, dataFrameList):
 #        print(col, df[col].map(lambda x: len(str(x))).max())
 
     print("Uploading to Synapse")
-    schema = Schema(name='Sepsis Causing Diseases Metadata', columns=as_table_columns(df),
-        parent='syn4012977')
+    schema = Schema(name=synName, columns=as_table_columns(df),
+        parent=synID)
     syn.store(Table(schema, df))
 
 def main():
-    # Parse the command line arguments to find the GEO dataset ID
-    parser = cmdLineParser()
-    args = parser.parse_args()
-
     # Get the accession IDs from the input file
-    accessionIDs = getAccessionIDsFromFile(args.inputFile)
+    accessionIDs = getAccessionIDsFromFile(accessionIDsFilename)
 
     # Create dataframe for the data
     dataFrameList = []
@@ -527,12 +520,11 @@ def main():
         if(metadata):
             # Write to csv file
             dataFrameList.append(writeToFile(metadata, accessionID,
-                args.directory))
+                directory))
 
     # Uplaod to synapse
     print('Uploading the data to Synapse')
-    upload(args.directory, dataFrameList)
-
+    upload(directory, synID, synName, dataFrameList)
 
 if __name__ == "__main__":
     main()

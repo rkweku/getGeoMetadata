@@ -11,30 +11,25 @@ from synapseclient import Schema, Column, Table, Row, RowSet, as_table_columns
 syn=synapseclient.Synapse()
 syn.login()
 
-def cmdLineParser():
-    """
-    Parse the command line arguments
+#############################Execution Variables###############################
+# Name of the folder to be used to save the metadata files
+directory = ''
 
-    Return:
-        parser for all arguments
+# The synapse ID for the project where the table will be saved
+synID = ''
 
-    """
+# The name that you would like to name the table.
+synName = ''
+###############################################################################
 
-    # Initialize parser
-    parser = argparse.ArgumentParser()
-
-    ### Add all arguments here
-    parser.add_argument('-directory', required=True, help='Name of the '\
-        'folder containing the metadata')
-
-    return(parser)
-
-def upload(directory, dataFrameList):
+def upload(directory, synID, synName, dataFrameList):
     """
     Upload the data to a Synapse table
 
     Input:
         directory: The name of the directory holding the data
+        synID: Synapse ID of the project where the table will be stored
+        synName: Name to be given to the new table
         dataFrameList: List of dataframes with all of the data
 
     """
@@ -51,13 +46,9 @@ def upload(directory, dataFrameList):
     print("Writing to file")
     df.to_csv('%s/allData.csv' % directory, encodings='utf-8', index=False)
     
-    # Print lengths of each column
-    for col in df.columns.values:
-        print(col, df[col].map(lambda x: len(str(x))).max())
-
     print("Uploading to Synapse")
-    schema = Schema(name='Diseases That Cause Sepsis Metadata', columns=as_table_columns(df),
-        parent='syn4012977')
+    schema = Schema(name=synName, columns=as_table_columns(df),
+        parent=synID)
     syn.store(Table(schema, df))
 
 def readFiles(directory):
@@ -74,6 +65,12 @@ def readFiles(directory):
 
     dataFrameList = []
 
+    # Delete merged file if it exists
+    try:
+        os.remove('%s/allData.csv' % directory)
+    except OSError:
+        pass
+
     for filename in os.listdir(directory):
         filename = os.path.join(directory, filename)
         if os.path.isfile(filename):
@@ -83,15 +80,11 @@ def readFiles(directory):
     return(dataFrameList)
 
 def main():
-    # Parse the command line arguments to find the GEO dataset ID
-    parser = cmdLineParser()
-    args = parser.parse_args()
-
-    dataFrameList = readFiles(args.directory)  
+    dataFrameList = readFiles(directory)  
 
     # Upload to synapse
     print('Uploading the data to Synapse')
-    upload(args.directory, dataFrameList)
+    upload(directory, synID, synName, dataFrameList)
 
 if __name__ == "__main__":
     main()

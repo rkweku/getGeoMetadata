@@ -8,23 +8,10 @@ import lxml.etree as ET
 from Bio import Entrez
 from synapseclient import Schema, Column, Table, Row, RowSet, as_table_columns
 
-def cmdLineParser():
-    """
-    Parse the command line arguments
-
-    Return:
-        parser for all arguments
-
-    """
-
-    # Initialize parser
-    parser = argparse.ArgumentParser()
-
-    ### Add all arguments here
-    parser.add_argument('-id', required=True, help='GEO accession number for '\
-        'the dataset of interest')
-
-    return(parser)
+#############################Execution Variables###############################
+# Geo accession ID for the dataset of interest
+accessionID = 'GDS4971'
+##############################################################################
 
 def getGDSMetadata(gdsID):
     """
@@ -360,11 +347,6 @@ def writeToFile(metadata, gdsID):
     f.close()
 
 def main():
-    # Parse the command line arguments to find the GEO dataset ID
-    parser = cmdLineParser()
-    args = parser.parse_args()
-
-    accessionID = args.id
     print accessionID
     print('Getting the samples from the dataset')
     if(accessionID.startswith('GDS')):

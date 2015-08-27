@@ -37,9 +37,9 @@ https://pip.pypa.io/en/stable/installing.html
 
 Execution
 --------------
-Executing any of the getGeoMetadata programs require a few specific command
-line arguments for a successful execution. They are listed below along with
-examples further below.
+Executing any of the getGeoMetadata programs requires the user to input a few
+execution variables within the script itself for a successful execution. The
+variables are listed below with a description of what they are.
 
 Notes
 --------------
@@ -51,35 +51,18 @@ Do not end the file with a new line. An example is provided in the repo.
 Arguments
 --------------
 *Arguments for getGeoMetdataSingle.py and getGeoMetadataBySample.py
-id		GEO accession number for the dataset of interest
+accessionID	GEO accession number for the dataset of interest
 
 *Arguments for getGeoMetadata.py
-inputFile	File holding a simple list of the GEO accession numbers for
-...		all datasets and series of interest
-directory	Name of the folder to output the data to
+accessionIDsFilename	File holding a simple list of the GEO accession numbers
+...			for all datasets and series of interest
+directory		Name of the folder to output the data to
+synID			Synapse ID for the project where teh table will be
+...			saved.
+synName			The name that you are naming the table
 
 *Arguments for uploadToSynapse.py
 diretory	Name of the folder holding the data to be uploaded to Synapse
-
-Examples
---------------
-1. Execution on a single dataset or data series to provide metadata with just
-   one characteristic and its value per row.
-
-python getGeoMetadataSingle.py -id GDS4071
-
-2. Execution on multiple datasets or data series to provide metdata with just
-   one characteristic and its value per row.
-
-python getGeoMetadata.py -inputFile accessionIDs.txt -directory outputDirectory
-
-3. Execution on a single dataset or data series to have one sample per row
-
-python getGeoMetadataBySample.py -id GDS4071
-
-4. Execution to upload a directory to Synapse
-
-python uploadToSynapse.py -directory outputDirectory
 
 Contact
 --------------
