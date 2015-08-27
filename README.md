@@ -51,12 +51,11 @@ Do not end the file with a new line. An example is provided in the repo.
 ####Arguments for getGeoMetadata.py
 **accessionIDsFilename:**	File holding a simple list of the GEO accession numbers for all datasets and series of interest  
 **directory:** Name of the folder to output the data to  
-synID			Synapse ID for the project where teh table will be
-...			saved.  
+**synID:** Synapse ID for the project where teh table will be saved.  
 **synName:** The name that you are naming the table
 
 ####Arguments for uploadToSynapse.py
-***irectory:**	Name of the folder holding the data to be uploaded to Synapse
+**directory:**	Name of the folder holding the data to be uploaded to Synapse
 
 Contact
 --------------
