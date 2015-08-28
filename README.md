@@ -2,26 +2,28 @@
 
 ##Description
 getGeoMetadata functions by downloading metadata and parsing the  
-characteristics for each sample from a GEO data series or GEO dataset. Metadata  
-is saved and then can be uploaded to a project on synapse.org. There are three  
-files within this project. 
+characteristics for each sample from a GEO data series or GEO dataset.  
+Metadata is saved and then can be uploaded to a project on synapse.org.  
+There are three files within this project. 
 
-getGeoMetadataSingle.py downloads the metadata for one dataset and saves the  
-metadata as a csv file
+**getGeoMetadataSingle.py**  
+Downloads the metadata for one dataset and saves the metadata as a csv file
 
-getGeoMetadata.py downloads the metadata for multiple GEO datasets and saves  
-the metadata as a csv file. It then uploads all of these into a specified  
-table on synapse.org
+**getGeoMetadata.py**  
+Downloads the metadata for multiple GEO datasets and saves the metadata as  
+a csv file. It then uploads all of these into a specified table on synapse.org
 
-getGeoMetadataBySample.py downloads the metadata for one dataset and saves  
+**getGeoMetadataBySample.py**  
+Downloads the metadata for one dataset and saves  
 the metadata in a format different than the other metadata files. It takes  
 all unique characteristics and creates a column for it so that each sample  
 only has one entry per table.
 
-uploadToSynapse.py uploads an entire folder to synapse in one large table.  
-This is useful if getGeometadata.py failed at some point but a large amount  
-of data has already been downloaded. This can be used later to upload the  
-full folder once all data has been downloaded
+**uploadToSynapse.py**  
+Uploads an entire folder to synapse in one large table. This is useful if  
+getGeometadata.py failed at some point but a large amount of data has already  
+been downloaded. This can be used later to upload the full folder once all  
+data has been downloaded
 
 ##Requirements
 **getGeoMetadata requires the following python libraries to perform properly**  
@@ -49,13 +51,13 @@ Do not end the file with a new line. An example is provided in the repo.
 **accessionID:**	GEO accession number for the dataset of interest
 
 ####Arguments for getGeoMetadata.py
-**accessionIDsFilename:**	File holding a simple list of the GEO accession numbers for all datasets and series of interest  
+**accessionIDsFilename:** File holding a simple list of the GEO accession numbers for all datasets and series of interest  
 **directory:** Name of the folder to output the data to  
 **synID:** Synapse ID for the project where teh table will be saved.  
 **synName:** The name that you are naming the table
 
 ####Arguments for uploadToSynapse.py
-**directory:**	Name of the folder holding the data to be uploaded to Synapse
+**directory:** Name of the folder holding the data to be uploaded to Synapse
 
 Contact
 --------------
